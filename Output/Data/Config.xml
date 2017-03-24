@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<Config>
+  <Setting id="Width" value="800"/>
+  <Setting id="Height" value="600"/>
+</Config>
