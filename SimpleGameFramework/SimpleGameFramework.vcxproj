@@ -110,6 +110,7 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="AppConfig.h" />
+    <ClInclude Include="BuildUiManager.h" />
     <ClInclude Include="CGameFrameworkApp.h" />
     <ClInclude Include="Saving.h" />
     <ClInclude Include="ChildView.h" />
@@ -128,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppConfig.cpp" />
+    <ClCompile Include="BuildUiManager.cpp" />
     <ClCompile Include="CGameFrameworkApp.cpp" />
     <ClCompile Include="Saving.cpp" />
     <ClCompile Include="ChildView.cpp" />

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Saving.h"
+#include "GameManager.h"
 
 
 Saving::Saving(const Vector2i& _location)
@@ -30,5 +31,6 @@ void Saving::RenderInternal(Gdiplus::Graphics & canvas)
 {
 	GameFrameworkInstance.DrawRectangle(canvas,
 		AABBi(Vector2i(-10, -10), Vector2i(10, 10)),
-		true, Gdiplus::Color::Chartreuse);
+		true, Gdiplus::Color::Yellow);
 }
+

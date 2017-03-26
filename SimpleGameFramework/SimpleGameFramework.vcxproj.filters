@@ -96,6 +96,9 @@
     <ClInclude Include="Saving.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BuildUiManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGameFrameworkApp.cpp">
@@ -135,6 +138,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Saving.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildUiManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

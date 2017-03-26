@@ -13,9 +13,12 @@ public:
 		return egotPlayer;
 	}
 
+	void BeginPlay();
+
 	virtual void Save(std::ofstream& os);
 	virtual void Load(std::ifstream& is);
-
+private:
+	Vector2i screenDimensions;
 protected:
 	virtual void RenderInternal(Gdiplus::Graphics& canvas);
 

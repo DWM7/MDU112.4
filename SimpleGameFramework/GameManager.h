@@ -2,6 +2,7 @@
 
 #include "GameFramework.h"
 #include "Player.h"
+#include "GameInput.h"
 
 #include <list>
 
@@ -10,6 +11,9 @@ const int CellSize = 20;
 class GameManager
 {
 public:
+	bool object_choice = true;
+	bool floor_choice = false;
+	bool build_mode = true;
 	static GameManager& Instance();
 
 	/** BeginPlay is called when the game first launches. It is only called once per launch. */

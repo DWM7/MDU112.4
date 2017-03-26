@@ -48,6 +48,10 @@ void GameInput::Update(double deltaTime)
 	{
 		movementInput.X = 1;
 	}
+	/*if (OnKeyDown(VK_SPACE) & 0x8000)
+	{
+		
+	}*/
 
 	GameManagerInstance.SetPlayerInput(movementInput);
 }

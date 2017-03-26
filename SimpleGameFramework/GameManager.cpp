@@ -87,7 +87,7 @@ void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 	int numRows = clientRect.Height() / CellSize;
 	int numCols = clientRect.Width() / CellSize;
 
-	// draw horizontal lines
+	// draw horizontal lines for grid
 	for (int row = 0; row < numRows; ++row)
 	{
 		Vector2i start = Vector2i(0, row * CellSize);
@@ -95,10 +95,10 @@ void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 		GameFrameworkInstance.DrawLine(canvas,
 			start,
 			end,
-			Gdiplus::Color::HotPink);
+			Gdiplus::Color::White);
 	}
 
-	// draw vertical lines
+	// draw vertical lines for grid
 	for (int col = 0; col < numCols; ++col)
 	{
 		Vector2i start = Vector2i(col * CellSize, 0);
@@ -106,7 +106,7 @@ void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 		GameFrameworkInstance.DrawLine(canvas,
 			start,
 			end,
-			Gdiplus::Color::DeepPink);
+			Gdiplus::Color::White);
 	}
 
 	// Draw all of the objects
@@ -138,6 +138,17 @@ void GameManager::Render(Gdiplus::Graphics& canvas, const CRect& clientRect)
 
 	// End example code
 	////////////////////////////////////////////////////////////////////////////////
+
+	// Build Menu
+	Vector2i dimensions = GameManagerInstance.GetScreenDimensions();
+	Vector2i centrePoint = dimensions * 0.1f;
+	GameFrameworkInstance.DrawRectangle(canvas,
+		AABBi(Vector2i(0, 0) + centrePoint,
+			Vector2i(150, 500) + centrePoint),
+		true, Gdiplus::Color::Gray);
+	GameFrameworkInstance.DrawText(canvas, Vector2i(10, 10) + centrePoint, 12, "Arial", "[1] Wall", Gdiplus::Color::White);
+	GameFrameworkInstance.DrawText(canvas, Vector2i(10, 35) + centrePoint, 12, "Arial", "[2] Damage Zone", Gdiplus::Color::White);
+	GameFrameworkInstance.DrawText(canvas, Vector2i(10, 60) + centrePoint, 12, "Arial", "[3] Healing Zone", Gdiplus::Color::White);
 }
 
 void GameManager::SetPlayerInput(const Vector2i& newInput)
@@ -150,43 +161,46 @@ void GameManager::SetPlayerInput(const Vector2i& newInput)
 
 void GameManager::OnMouseClick(const Vector2i & location)
 {
-	// need to get our actual location as we can move off of the screen
-	Vector2i actualLocation = location + playerPtr->location;
-
-	GameObject* toDelete = nullptr;
-
-	// Convert the pixel coordinates to the grid cell coordinates
-	int gridX = (actualLocation.X - (actualLocation.X % CellSize)) / CellSize;
-	int gridY = (actualLocation.Y - (actualLocation.Y % CellSize)) / CellSize;
-
-	// generate a bounding box for the grid cell
-	Vector2i boxMin = Vector2i(gridX * CellSize, gridY * CellSize);
-	Vector2i boxMax = boxMin + Vector2i(CellSize, CellSize);
-	AABBi gridBounds = AABBi(boxMin, boxMax);
-
-	for (GameObject* objectPtr : gameObjects)
+	if (object_choice == true)
 	{
-		GameObject& objectRef = *objectPtr;
+		// need to get our actual location as we can move off of the screen
+		Vector2i actualLocation = location + playerPtr->location;
 
-		AABBi bounds(objectRef.location - Vector2i(10, 10),
-			objectRef.location + Vector2i(10, 10));
+		GameObject* toDelete = nullptr;
 
-		// clicked on this game object?
-		if (bounds.Contains(actualLocation))
+		// Convert the pixel coordinates to the grid cell coordinates
+		int gridX = (actualLocation.X - (actualLocation.X % CellSize)) / CellSize;
+		int gridY = (actualLocation.Y - (actualLocation.Y % CellSize)) / CellSize;
+
+		// generate a bounding box for the grid cell
+		Vector2i boxMin = Vector2i(gridX * CellSize, gridY * CellSize);
+		Vector2i boxMax = boxMin + Vector2i(CellSize, CellSize);
+		AABBi gridBounds = AABBi(boxMin, boxMax);
+
+		for (GameObject* objectPtr : gameObjects)
 		{
-			toDelete = objectPtr;
-		}
-	}
+			GameObject& objectRef = *objectPtr;
 
-	if (toDelete)
-	{
-		gameObjects.erase(std::find(gameObjects.begin(), gameObjects.end(), toDelete));
-		delete toDelete;
-	}
-	else
-	{
-		// instantiate a new Saving where we clicked
-		Saving* newObject = new Saving(gridBounds.Centre());
-		gameObjects.push_back(newObject);
+			AABBi bounds(objectRef.location - Vector2i(10, 10),
+				objectRef.location + Vector2i(10, 10));
+
+			// clicked on this game object?
+			if (bounds.Contains(actualLocation))
+			{
+				toDelete = objectPtr;
+			}
+		}
+
+		if (toDelete)
+		{
+			gameObjects.erase(std::find(gameObjects.begin(), gameObjects.end(), toDelete));
+			delete toDelete;
+		}
+		else
+		{
+			// instantiate a new Saving where we clicked
+			Saving* newObject = new Saving(gridBounds.Centre());
+			gameObjects.push_back(newObject);
+		}
 	}
 }
