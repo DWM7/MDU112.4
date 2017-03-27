@@ -13,7 +13,7 @@ public:
 		return egotPlayer;
 	}
 
-	void BeginPlay();
+	//void BeginPlay();
 
 	virtual void Save(std::ofstream& os);
 	virtual void Load(std::ifstream& is);
